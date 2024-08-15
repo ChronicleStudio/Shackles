@@ -1,0 +1,77 @@
+{
+  "code": "shackle",
+  "class": "ItemShackle",
+  "creativeinventory": {
+    "general": [
+      "*"
+    ]
+  },
+  "shape": {
+    "base": "item/shacklegear"
+  },
+  "attributes": {
+    "fuelmult": 1,
+    "maxseconds": 1209600
+  },
+  "maxstacksize": 1,
+  "textures": {
+    "temporal": { "base": "item/shacklegear" },
+    "gold": { "base": "game:block/metal/plate/meteoriciron" },
+    "plain": { "base": "game:block/glass/plain" }
+  },
+  "glowLevel": 255,
+  "guiTransform": {
+    "translation": {
+      "x": 3,
+      "y": 1,
+      "z": 0
+    },
+    "rotation": {
+      "x": 145,
+      "y": -12,
+      "z": 0
+    },
+    "origin": {
+      "x": 0.5,
+      "y": 0.0625,
+      "z": 0.5
+    },
+    "scale": 1.0
+  },  
+  "tpHandTransform": {
+    "translation": {
+      "x": -2.2,
+      "y": -0.3,
+      "z": -1.9
+    },
+    "rotation": {
+      "x": 0,
+      "y": -63,
+      "z": 18
+    },
+    "origin": {
+      "x": 0.5,
+      "y": 0.0625,
+      "z": 0.5
+    },
+    "scale": 0.3
+  },
+  "groundTransform": {
+    "translation": {
+      "x": 0,
+      "y": 0.3,
+      "z": 0
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "origin": {
+      "x": 0.3899,
+      "y": 0,
+      "z": 0.47
+    },
+    "scale": 2.5
+  }
+}
