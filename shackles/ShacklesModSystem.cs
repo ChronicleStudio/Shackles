@@ -1,16 +1,4 @@
-﻿using Cairo;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using Vintagestory.API.Client;
-using Vintagestory.API.Common;
-using Vintagestory.API.Common.Entities;
-using Vintagestory.API.MathTools;
-using Vintagestory.API.Server;
-using Vintagestory.API.Util;
-using Vintagestory.GameContent;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using Vintagestory.API.Common;
 
 namespace shackles
 {
@@ -30,12 +18,12 @@ namespace shackles
         }
 
         public override void Start(ICoreAPI api)
-        {           
+        {
             api.RegisterItemClass("ItemShackle", typeof(ItemShackle));
-            api.RegisterEntityBehaviorClass("gearfinder", typeof(EntityBehaviorGearFinder));                       
+            api.RegisterEntityBehaviorClass("gearfinder", typeof(EntityBehaviorGearFinder));
 
             _api = api;
-                    
+
             base.Start(api);
         }
     }

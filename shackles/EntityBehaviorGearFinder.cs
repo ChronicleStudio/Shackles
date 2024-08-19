@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
-using Vintagestory.GameContent;
 
 namespace shackles
 {
@@ -46,11 +41,11 @@ namespace shackles
         //        if (stack != null)
         //        {
         //            Enum.TryParse<EnumCharacterDressType>(stack.ItemAttributes["clothescategory"].AsString(), ignoreCase: true, out var dresstype);
-                    
+
         //            inv[(int)dresstype].Itemstack = stack;
         //            inv[(int)dresstype].MarkDirty();
         //        }
-                
+
         //    }
         //}
 
@@ -94,7 +89,7 @@ namespace shackles
             });
         }
 
-        
+
 
         public override void OnEntityDespawn(EntityDespawnData despawn)
         {
@@ -105,20 +100,22 @@ namespace shackles
         public override void OnGameTick(float deltaTime)
         {
             base.OnGameTick(deltaTime);
-            
+
 
             accum += deltaTime;
-            slowaccum+= deltaTime;
+            slowaccum += deltaTime;
 
-            if(accum > 0.5) {
-                if ((entity as EntityAgent).Controls.Sneak) {
+            if (accum > 0.5)
+            {
+                if ((entity as EntityAgent).Controls.Sneak)
+                {
                     EmitParticles();
-                }                           
+                }
 
                 accum = 0.0f;
             }
 
-            if(slowaccum > 3.0) 
+            if (slowaccum > 3.0)
             {
                 if (entity.Api.Side == EnumAppSide.Client)
                 {
@@ -136,7 +133,7 @@ namespace shackles
             }
 
 
-            
+
         }
 
         private readonly SimpleParticleProperties _particles = new SimpleParticleProperties
@@ -170,13 +167,14 @@ namespace shackles
 
         private void EmitParticles()
         {
-            if(entity.Api.Side == EnumAppSide.Server && Tracker.IsShackled(entity) && fullTrackData != null)
+            if (entity.Api.Side == EnumAppSide.Server && Tracker.IsShackled(entity) && fullTrackData != null)
             {
                 entity.WatchedAttributes.SetBool("Shackled", true);
                 entity.WatchedAttributes.SetBlockPos("Shackle", fullTrackData.LastPos);
             }
 
-            if(entity.Api.Side == EnumAppSide.Server && !Tracker.IsShackled(entity)) {
+            if (entity.Api.Side == EnumAppSide.Server && !Tracker.IsShackled(entity))
+            {
                 entity.WatchedAttributes.SetBool("Shackled", false);
             }
 
@@ -187,7 +185,7 @@ namespace shackles
                 vec3d = vec3d.Add(0.5, 0.0, 0.5);
                 Vec3d vec3d2 = entity.SidedPos.AheadCopy(1.0).XYZ.Add(0.0, entity.LocalEyePos.Y, 0.0);
                 Vec3d vec3d3 = vec3d - vec3d2;
-                               
+
                 _particles.AddQuantity = GameMath.Clamp(10f / _particles.MinVelocity.Length() * 1.0f, 0.05f, 10f);
                 _particles.MinVelocity = vec3d3.ToVec3f() / (_particles.LifeLength * 3f);
                 _particles.MinPos = vec3d2;
@@ -196,7 +194,7 @@ namespace shackles
                 _particles.MaxSize = _particles.MinSize * 2f;
                 _particles.Color = GetRandomColor(entity.Api.World.Rand);
                 entity.Api.World.SpawnParticles(_particles);
-                
+
 
             }
 

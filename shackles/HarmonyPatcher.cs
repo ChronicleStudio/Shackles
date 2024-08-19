@@ -1,10 +1,7 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+using HarmonyLib;
 using Vintagestory.API.Common;
 
 namespace shackles
@@ -20,7 +17,7 @@ namespace shackles
         private static bool harmonyPatched;
 
         public override void Start(ICoreAPI api)
-        {            
+        {
             if (harmonyPatched)
             {
                 return;

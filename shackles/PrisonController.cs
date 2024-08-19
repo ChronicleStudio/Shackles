@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
-using Vintagestory.API.Util;
-using Vintagestory.Common;
 using Vintagestory.Server;
 
 namespace shackles
@@ -37,7 +31,7 @@ namespace shackles
 
         public void FreePlayer(string uid, ItemSlot slot, bool destroy = true, BlockPos brokenAt = null)
         {
-            
+
             if (sapi == null)
             {
                 return;
@@ -54,10 +48,10 @@ namespace shackles
                 }
                 else
                 {
-                    sapi.Permissions.SetRole(serverPlayer, "suplayer");                    
+                    sapi.Permissions.SetRole(serverPlayer, "suplayer");
                 }
             }
-            
+
             //(sapi.PlayerData.GetPlayerDataByUid(uid) as ServerPlayerData).SetRole((sapi.World as ServerMain).Config.RolesByCode["suplayer"]);
             ITreeAttribute treeAttribute = slot?.Itemstack?.Attributes;
             if (treeAttribute != null)
@@ -67,8 +61,8 @@ namespace shackles
                 if (serverMain.GetWorldPlayerData(uid) is ServerWorldPlayerData serverWorldPlayerData)
                 {
                     IServerPlayer player = sapi.World.PlayerByUid(uid) as IServerPlayer;
-                    
-                    if(player != null)
+
+                    if (player != null)
                     {
                         player.SetSpawnPosition(new PlayerSpawnPos
                         {
@@ -77,7 +71,7 @@ namespace shackles
                             z = (int)spawnFromAttributes.Z
                         });
                     }
-                    
+
                     //serverWorldPlayerData.set_SpawnPosition(new PlayerSpawnPos
                     //{
                     //    x = (int)spawnFromAttributes.X,
@@ -198,7 +192,7 @@ namespace shackles
         }
 
         public bool TryImprisonPlayer(IServerPlayer prisoner, IPlayer killer, ItemSlot slot)
-        {            
+        {
             ITreeAttribute treeAttribute = slot?.Itemstack?.Attributes;
             if (treeAttribute == null)
             {

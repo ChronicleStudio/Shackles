@@ -1,10 +1,8 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using HarmonyLib;
 
 namespace shackles
 {
@@ -48,7 +46,7 @@ namespace shackles
         public static void CallMethod(this object instance, string method, params object[] args)
         {
             CallMethod<object>(instance, method, args);
-            
+
         }
 
         public static T CallMethod<T>(this object instance, string method)
@@ -67,7 +65,7 @@ namespace shackles
                     array[i] = args[i].GetType();
                 }
             }
-            
+
             return (T)(GetMethod(instance, method, array).Invoke(instance, args));
         }
 

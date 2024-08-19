@@ -1,18 +1,10 @@
-﻿using HarmonyLib;
-using ProtoBuf;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HarmonyLib;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
-using Vintagestory.API.Config;
-using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
-using Vintagestory.GameContent;
 
 namespace shackles
 {
@@ -24,7 +16,7 @@ namespace shackles
         private ICoreClientAPI capi;
 
         public Dictionary<string, long> TrackerIDs = new Dictionary<string, long>();
-        
+
         public Dictionary<string, string> oldRoles = new Dictionary<string, string>();
 
         private Type dummyPlayerType;
@@ -34,16 +26,16 @@ namespace shackles
         public PrisonController Prison { get; private set; }
 
         private ShackleGearTrackerModSystem Tracker => api.ModLoader.GetModSystem<ShackleGearTrackerModSystem>();
-              
+
 
         public void RegisterServerCommands(ICoreServerAPI api)
-        {            
+        {
             var parsers = api.ChatCommands.Parsers;
-                       
+
 
             api.ChatCommands.GetOrCreate("sg")
                 .RequiresPlayer()
-                .RequiresPrivilege(Privilege.chat)                              
+                .RequiresPrivilege(Privilege.chat)
                 .BeginSubCommand("fuellog")
                     .RequiresPlayer()
                     .RequiresPrivilege(Privilege.chat)
@@ -75,7 +67,7 @@ namespace shackles
 
         public override void Start(ICoreAPI api)
         {
-            this.api = api;            
+            this.api = api;
         }
 
         public override void StartServerSide(ICoreServerAPI api)
@@ -86,19 +78,19 @@ namespace shackles
             dummyPlayerType = AccessTools.TypeByName("dummyplayer.src.EntityClonePlayer");
             api.Event.OnEntityDeath += OnEntityDeath;
             api.Event.PlayerDeath += OnPlayerDeath;
-            api.Event.PlayerDisconnect += EventOnPlayerDisconnect;                        
-            
+            api.Event.PlayerDisconnect += EventOnPlayerDisconnect;
+
             api.Event.PlayerJoin += delegate (IServerPlayer player)
             {
                 RegisterPearlUpdate(player);
-                
+
             };
             shackleServerConfig = new ShacklesServerConfig(api);
             shackleServerConfig.Load();
             shackleServerConfig.Save();
-            LoadRoleDataFromDB();     
+            LoadRoleDataFromDB();
         }
-                      
+
 
         private void OnEntityDeath(Entity entity, DamageSource damageSource)
         {
@@ -120,15 +112,15 @@ namespace shackles
             {
                 return;
             }
-            if(player.Role.Code != shackleServerConfig.shackledGroup && !oldRoles.ContainsKey(player.PlayerUID))
+            if (player.Role.Code != shackleServerConfig.shackledGroup && !oldRoles.ContainsKey(player.PlayerUID))
             {
                 oldRoles.Add(player.PlayerUID, player.Role.Code);
-                
+
             }
 
             sapi.Permissions.SetRole(player, shackleServerConfig.shackledGroup);
 
-            
+
             string uid = player.PlayerUID;
             TrackerIDs[uid] = sapi.Event.RegisterGameTickListener(delegate
             {
@@ -167,7 +159,7 @@ namespace shackles
             });
         }
 
-        
+
 
         public void EventOnPlayerDisconnect(IServerPlayer byplayer)
         {
@@ -192,7 +184,7 @@ namespace shackles
                 }
             }
         }
-                
+
 
         private TextCommandResult FuelLog(TextCommandCallingArgs args)
         {
@@ -204,10 +196,10 @@ namespace shackles
                 string lastFuelerUID = trackData.LastFuelerUID;
                 if (lastFuelerUID != null)
                 {
-                    return TextCommandResult.Success("The player who last fueled your shackle is: " + sapi.World.PlayerByUid(lastFuelerUID).PlayerName + " With the UID of: " + lastFuelerUID);                    
+                    return TextCommandResult.Success("The player who last fueled your shackle is: " + sapi.World.PlayerByUid(lastFuelerUID).PlayerName + " With the UID of: " + lastFuelerUID);
                 }
-            }            
-            return TextCommandResult.Error("No log exists, unshackled?");  
+            }
+            return TextCommandResult.Error("No log exists, unshackled?");
         }
 
         private TextCommandResult AdminFreePrisoner(TextCommandCallingArgs args)
@@ -238,17 +230,17 @@ namespace shackles
                     {
                         num = 47;
                         Prison.FreePlayer(serverPlayer.PlayerUID, Tracker.GetTrackData(serverPlayer.PlayerUID).Slot);
-                        return TextCommandResult.Success("Player " + serverPlayer.PlayerName + " Freed.");                        
+                        return TextCommandResult.Success("Player " + serverPlayer.PlayerName + " Freed.");
                     }
                     else
                     {
-                        return TextCommandResult.Error("Player \"" + text + "\" does not exist!");                        
+                        return TextCommandResult.Error("Player \"" + text + "\" does not exist!");
                     }
                 }
                 else
                 {
                     return TextCommandResult.Error("Please provide a valid player name.");
-                   
+
                 }
             }
             catch (Exception ex)
@@ -256,7 +248,7 @@ namespace shackles
                 player.Entity.World.Logger.Debug("[ShackleGear] Exception thrown after: " + num);
                 player.Entity.World.Logger.Debug("[ShackleGear] Ex: " + ex);
             }
-            
+
             return TextCommandResult.Error("Failed, Unkown Reason!");
         }
 
@@ -268,45 +260,45 @@ namespace shackles
             {
                 string text = args[0].ToString();
                 if (text != null)
-                {                    
+                {
                     IServerPlayer serverPlayer = null;
                     ItemSlot itemSlot = adminPlayer.InventoryManager?.ActiveHotbarSlot;
                     IPlayer[] allPlayers = adminPlayer.Entity.World.AllPlayers;
                     foreach (IPlayer player2 in allPlayers)
-                    {                        
+                    {
                         if (player2.PlayerName == text)
-                        {                            
+                        {
                             serverPlayer = player2 as IServerPlayer;
                             break;
                         }
                     }
                     if (serverPlayer != null && serverPlayer.PlayerUID != null)
-                    {                        
+                    {
                         if (itemSlot?.Itemstack?.Item is ItemShackle)
-                        {                           
+                        {
                             if (Prison.TryImprisonPlayer(serverPlayer, adminPlayer, itemSlot))
-                            { 
+                            {
                                 return TextCommandResult.Success("Player " + serverPlayer.PlayerName + " Shackled.");
                             }
                             else
-                            {                                
+                            {
                                 return TextCommandResult.Error("Not holding a ShackleGear.");
                             }
                         }
                     }
                     else
                     {
-                        return TextCommandResult.Error("Player \"" + text + "\" does not exist.");                        
+                        return TextCommandResult.Error("Player \"" + text + "\" does not exist.");
                     }
                 }
                 else
                 {
-                    return TextCommandResult.Error("Please provide a valid player name.");                    
+                    return TextCommandResult.Error("Please provide a valid player name.");
                 }
             }
             catch (Exception ex)
             {
-                
+
                 adminPlayer.Entity.World.Logger.Debug("[ShackleGear] Ex: " + ex);
             }
 
@@ -331,14 +323,14 @@ namespace shackles
             }
             SaveRoleDataToDB();
         }
-       
 
-        
+
+
 
         public override void StartPre(ICoreAPI api)
         {
             base.StartPre(api);
-            
+
         }
 
         public override void StartClientSide(ICoreClientAPI api)
