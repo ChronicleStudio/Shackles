@@ -1,13 +1,14 @@
 {
-  "type": "code",
-  "modid": "shacklesmod",
-  "name": "Shackles Mod",
-  "authors": [
-    "Dythanos"
-  ],
-  "description": "Shackles - An item used to imprison another player after killing them. a common Civ Craft mechanic, ported over to Vintage Story and expanded on. Credit to Novocain for thier previous work!",
-  "version": "1.0.0",
-  "dependencies": {
-    "game": ""
-  }
+	"type": "code",
+	"modid": "shacklesmod",
+	"name": "Shackles Mod",
+	"authors": [
+		"Chronicle Studio",
+		"Dythanos"
+	],
+	"description": "Shackles - An item used to imprison another player after killing them. a common Civ Craft mechanic, ported over to Vintage Story and expanded on. Credit to Novocain for thier previous work!",
+	"version": "1.0.0",
+	"dependencies": {
+		"game": ""
+	}
 }

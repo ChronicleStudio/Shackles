@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>..\..\bin\$(Configuration)\Mods\Shackles</OutputPath>
+    <OutputPath>..\..\bin\$(Configuration)\Mods\$(MSBuildProjectName)</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,6 +43,10 @@
       <HintPath>$(VINTAGE_STORY)/Lib/cairo-sharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
+		<Reference Include="Microsoft.Data.Sqlite">
+			<HintPath>$(VINTAGE_STORY)/Lib/Microsoft.Data.Sqlite.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
   </ItemGroup>
 
 <ItemGroup>
