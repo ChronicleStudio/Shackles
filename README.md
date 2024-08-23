@@ -1,6 +1,5 @@
 # Credits
 - Orriginal Works where created by Bunnyviking (aka tenabrae) vs.usagi.com.au (Link no longer working), usagigraphics@gmail.com, where Contents where orriginaly provided under [CC-BY 4 License](https://creativecommons.org/licenses/by/4.0/)
-    - Orriginal works which where published or modified or maintained by [Novicain](https://github.com/Novocain1) can be found on the [Vintage Story Mod DB](https://mods.vintagestory.at/civmods) or on [GitHub](https://github.com/Novocain1/MiscMods). Modified works are licensed by "The Unlicensed".
     - Summary of License
       > Contents provided uder CC 4 
       >
@@ -23,4 +22,4 @@
     > - Retstrucuring
     > - Rewriting
  
-    - By [theDythanos](https://github.com/theDythanos) a member of [Chronicle Studio](https://github.com/ChronicleStudio)
+    By [theDythanos](https://github.com/theDythanos) a member of [Chronicle Studio](https://github.com/ChronicleStudio)
